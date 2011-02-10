@@ -6,7 +6,7 @@ Example usage
 
 import osmnodepbf
 
-foo = osmnodepbf.parser("some.osm.pbf") 
+foo = osmnodepbf.Parser("some.osm.pbf") 
 
 tags = foo.return_tags(refresh=True) # To see what tags are available
 
