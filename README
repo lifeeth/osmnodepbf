@@ -1,0 +1,7 @@
+Example usage
+
+import osmnodepbf
+
+foo = osmnodepbf.parser("some.osm.pbf")
+
+railways_stations = foo.parse({"railway":"station"})
