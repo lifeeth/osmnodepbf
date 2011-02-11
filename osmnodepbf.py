@@ -31,7 +31,8 @@ class Parser:
 
     def __init__(self,filename):
         """Initialize the class with the filename of the pbf you want to parse"""
-        self.fpbf=open(filename, "r")
+        self.filename = filename
+        self.fpbf=open(self.filename, "r")
         self.tags = {}
         self.nodes = []
         self.blobhead=fileformat_pb2.BlobHeader()
@@ -100,8 +101,10 @@ class Parser:
             le_int=unpack('!L',be_int)
             return le_int[0]
 
-    def parse(self,tag = {}):
+    def parse(self,tag = {},refresh = False):
         """This parses the pbf for nodes for the given tags"""
+        if refresh:
+			self.__init__(self.filename)
         while self.readNextBlock():
             for pg in self.primblock.primitivegroup:
                 if len(pg.nodes)>0:
