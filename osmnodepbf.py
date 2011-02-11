@@ -102,8 +102,6 @@ class Parser:
 
     def parse(self,tag = {}):
         """This parses the pbf for nodes for the given tags"""
-        self.nodes = []
-        self.tags = []
         while self.readNextBlock():
             for pg in self.primblock.primitivegroup:
                 if len(pg.nodes)>0:
