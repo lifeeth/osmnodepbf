@@ -1,10 +1,19 @@
 #!/usr/bin/env python
-from osmnodepbf import osmnodepbf
 
-foo = osmnodepbf.Parser("india.osm.pbf")
+## little example
+## usage is: example.py osmfile.pbf
 
-#tags = foo.return_tags(refresh=True) # To see what tags are available
+import sys
+import osmnodepbf
 
-railway_stations = foo.parse({"railway":"station"})
+foo = osmnodepbf.Parser(sys.argv[1])
 
-print len(railway_stations)
+## list all tags
+#tags = foo.return_tags(refresh=False) # To see what tags are available
+#for tag, keys in tags.items():
+#    print tag, sorted(list(keys))
+
+## filter some nodes with the given tag:
+bus_stops = foo.parse({"highway":"bus_stop"})
+
+print len(bus_stops)

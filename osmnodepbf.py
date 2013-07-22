@@ -33,7 +33,7 @@ class Parser:
         """Initialize the class with the filename of the pbf you want to parse"""
         self.filename = filename
         self.fpbf=open(self.filename, "r")
-        self.tags = {}
+        self.tags = {}    # content is {key: set(values)}, ...
         self.nodes = []
         self.blobhead=fileformat_pb2.BlobHeader()
         self.blob=fileformat_pb2.Blob()
@@ -132,11 +132,11 @@ class Parser:
                 if sky in tag.keys():
                     if ( svl in tag.values() ) or ( tag.values()[0] == "*") :
                         found_tag = True
-                if not len(tag):
-                    try:
-                        self.tags[node["sky"]].append(node["svl"])
-                    except:
-                        self.tags[node["sky"]] = [node["svl"]]
+                if not tag:
+                    if sky in self.tags:
+                        self.tags[sky].add(svl)
+                    else:
+                        self.tags[sky] = set([svl])
             if found_tag:
                 node["nodeid"]=nd.id
                 node["lat"]=float(nd.lat*gran+latoff)/NANO
@@ -189,14 +189,14 @@ class Parser:
                     sky=self.primblock.stringtable.s[ky] #Key
                     svl=self.primblock.stringtable.s[vl] #Value
                     node["tag"].append({sky:svl})
-                    if sky in tag.keys():
+                    if sky in tag:
                         if ( svl in tag.values() ) or ( tag.values()[0] == "*") :
                             found_tag = True
-                    if not len(tag):
-                        try:
-                            self.tags[node["sky"]].append(node["svl"])
-                        except:
-                            self.tags[node["sky"]] = [node["svl"]]
+                    if not tag:
+                        if sky in self.tags:
+                            self.tags[sky].add(svl)
+                        else:
+                            self.tags[sky] = set([svl])
             tagloc+=1
             if found_tag:
                 node["nodeid"]=lastID
