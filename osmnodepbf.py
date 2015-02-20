@@ -32,7 +32,7 @@ class Parser:
     def __init__(self,filename):
         """Initialize the class with the filename of the pbf you want to parse"""
         self.filename = filename
-        self.fpbf=open(self.filename, "r")
+        self.fpbf=open(self.filename, "rb")
         self.tags = {}    # content is {key: set(values)}, ...
         self.nodes = []
         self.blobhead=fileformat_pb2.BlobHeader()
